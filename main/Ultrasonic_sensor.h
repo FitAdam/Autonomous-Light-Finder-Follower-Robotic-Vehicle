@@ -34,18 +34,6 @@ class Ultrasonic{
     // Calculating the distance
     distance = duration * 0.034 / 2;
   
-    // Display 
-    display.clearDisplay();  // Clear the display so we can refresh
-    display.setFont(&FreeMono9pt7b);  // Set a custom font
-    display.setTextSize(0);  // Set text size. We are using a custom font so you should always use the text size of 0
-     // Print text:
-    display.setCursor(0, 15);  // (x,y)
-    display.println("Distance: ");  // Text or value to print
-    // Print variable with left alignment:
-    display.setCursor(75, 40);  // (x,y)
-    display.println(distance);  // Text or value to print
-    display.display();  // Print everything we set previously
-  
     return distance;
   }
   

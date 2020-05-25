@@ -41,8 +41,6 @@ class Screen{
     // function for display and detection of values from One Temperature and Humidity Sensor
     void display_hum_temp()
     {
-      //delay(3000);
-      //int chk = DHT.read11(DHT11_PIN);
       delay(3000);
       display.clearDisplay();  // Clear the display so we can refresh
       display.setFont(&FreeMono9pt7b);  // Set a custom font

@@ -3,18 +3,25 @@
     STUDENT NUMBER 1712807
  *************************************/
 // Libraries needed
-#include <dht.h>
+
 
 // import classes
 #include "Ultrasonic_sensor.h"
 #include "DC_Motors.h"
 #include "LDRs.h"
 #include "Display.h"
-dht DHT;
+#include "Humidity_sensor.h"
+#include "Buzzer.h"
+
 
 // Variables
-const int buzzer = 4; //buzzer to arduino pin 4
+const int BUZZER_PIN = 4; //buzzer to arduino pin 4
+Passive_Piezo_Buzzer new_buzzer(BUZZER_PIN);
+
+// Humidity_senosor
 const int DHT11_PIN = A2; //  Analog pin for humidity sensor
+Humidity_sensor humidity_sensor(DHT11_PIN);
+
 const int buttonPin = 3; //  pin for button
 
 int buttonState = 0;         // variable for reading the pushbutton status
@@ -58,18 +65,16 @@ void setup()
   // initialize serial communication:
   Serial.begin(9600);
   pinMode(buttonPin, INPUT_PULLUP);
-  pinMode(buzzer, OUTPUT); // Set buzzer - pin 4 as an output
   new_display.init();
-  // pin mode for humidity sensor
-  pinMode(DHT11_PIN, INPUT); //hum
+  new_buzzer.Buzz(); // Gives signal that the set up is finished
   
-  Buzz(); // Gives signal that the set up is finished
 }
 
 
 
 void loop()
-{
+{ 
+  humidity_sensor.get_humidity();
   new_display.display_hello();
   // CURRENT TESTING
   switch (1){
@@ -130,16 +135,4 @@ int speedControl() {
   delay(100);
   
   return tempo;
-}
-
-
-
-
-// function for the buzzer
-void Buzz()
-{
-  tone(buzzer, 1000); // Send sound signal...
-  delay(100);        // ...for sec
-  noTone(buzzer);     // Stop sound...
-  delay(1000);        // ...for 1sec
 }

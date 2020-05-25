@@ -16,6 +16,8 @@
 #include "Potentiometer.h"
 #include "Button.h"
 
+#include "LED.h"
+
 int POTENTIOMETER = A6;
 Potentiometer new_potentiometer(POTENTIOMETER);
 
@@ -61,6 +63,8 @@ LDRs ldrs(LEFT_PHOTORES,RIGHT_PHOTORES);
 
 Leds leds(LEFT_LEDPIN,RIGHT_LEDPIN);
 
+Led left_led(LEFT_LEDPIN);
+
 Screen new_display;
 //-----------------
 
@@ -70,7 +74,7 @@ void setup()
   Serial.begin(9600);
   new_display.init();
   new_buzzer.Buzz(); // Gives signal that the set up is finished
-  leds.turn_on_both();
+  //leds.turn_on_both();
   new_display.display_hello();
 }
 
@@ -82,8 +86,8 @@ void loop()
   // CURRENT TESTING
   switch (new_button.get_button_counter_value()){
     case 0:    
-      Serial.println("indicate_light()");
-      ldrs.indicate_light();
+      Serial.println("left_led");
+      left_led.on();
       break;
     case 1:    
       Serial.println("first display_hello()");

@@ -1,11 +1,12 @@
 
 class DCMotors{
-
-// pins for dc motors
+  
   int _IN1;
   int _IN2;
   int _IN3;
   int _IN4;
+
+  int tempo;
   
  public:
   DCMotors(int IN1, int IN2, int IN3, int IN4){

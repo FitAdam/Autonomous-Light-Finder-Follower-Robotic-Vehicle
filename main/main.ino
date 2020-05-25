@@ -12,7 +12,12 @@
 #include "Display.h"
 #include "Humidity_sensor.h"
 #include "Buzzer.h"
+#include "LEDs.h"
+#include "Potentiometer.h"
+#include "Button.h"
 
+int POTENTIOMETER = A6;
+Potentiometer new_potentiometer(POTENTIOMETER);
 
 // Variables
 const int BUZZER_PIN = 4; //buzzer to arduino pin 4
@@ -22,12 +27,10 @@ Passive_Piezo_Buzzer new_buzzer(BUZZER_PIN);
 const int DHT11_PIN = A2; //  Analog pin for humidity sensor
 Humidity_sensor humidity_sensor(DHT11_PIN);
 
-const int buttonPin = 3; //  pin for button
-
-int buttonState = 0;         // variable for reading the pushbutton status
+const int BUTTON_PIN = 3; //  pin for button
+Button new_button(BUTTON_PIN);
 
 // enigne variables:
-int tempo;
 
 int PIN_IN1 = 12;
 int PIN_IN2 = 11;
@@ -42,8 +45,7 @@ const int PIN_ECHO = 7;
 Ultrasonic ultrasonic(PIN_TRIG, PIN_ECHO);
 
 //-------------------
-// counter for the button to implement switch cases
-int button_counter = 0;
+
 
 
 // Pins for photoresistors:
@@ -55,7 +57,9 @@ const int RIGHT_PHOTORES = A0;
 const int RIGHT_LEDPIN = 6;      // Led pin at Arduino pin 6
 const int LEFT_LEDPIN = 5;
 
-LDRs ldrs(LEFT_PHOTORES,RIGHT_PHOTORES,LEFT_LEDPIN,RIGHT_LEDPIN);
+LDRs ldrs(LEFT_PHOTORES,RIGHT_PHOTORES);
+
+Leds leds(LEFT_LEDPIN,RIGHT_LEDPIN);
 
 Screen new_display;
 //-----------------
@@ -64,75 +68,38 @@ void setup()
 {
   // initialize serial communication:
   Serial.begin(9600);
-  pinMode(buttonPin, INPUT_PULLUP);
   new_display.init();
   new_buzzer.Buzz(); // Gives signal that the set up is finished
-  
+  leds.turn_on_both();
+  new_display.display_hello();
 }
 
 
 
 void loop()
 { 
-  humidity_sensor.get_humidity();
-  new_display.display_hello();
+  //new_button.test_button();
   // CURRENT TESTING
-  switch (1){
-    case 0:    // your hand is on the sensor
+  switch (new_button.get_button_counter_value()){
+    case 0:    
       Serial.println("indicate_light()");
       ldrs.indicate_light();
       break;
-    case 1:    // your hand is close to the sensor
+    case 1:    
       Serial.println("first display_hello()");
       new_display.display_hello();
       break;
-    case 2:    // your hand is a few inches from the sensor
-      Serial.println("second Bubble()");
-      ultrasonic.Bubble();
+    case 2:    
+      Serial.println("Case 2");
       break;
     case 3:    // your hand is nowhere near the sensor
       Serial.println("third-last Forward()");
-      tempo = speedControl();
-      dc_motors.Forward(tempo);
+      int new_tempo = new_potentiometer.get_value_for_speed();
+      Serial.println("tempo");
+      Serial.println(new_tempo);
+      dc_motors.Forward(new_tempo);
       break;
     }
    delay(100);
 
-}
-
-int test_button() {
-  // read the state of the pushbutton value:
-  buttonState = digitalRead(buttonPin);
-  // Show the state of pushbutton on serial monitor
-  //Serial.println(buttonState);
-  // check if the pushbutton is pressed.
-  // if it is, the buttonState is not HIGH:
-  if (buttonState != HIGH) {
-    // turn LED on:
-    //digitalWrite(right_ledPin, HIGH);
-    //digitalWrite(left_ledPin, HIGH);
-    // counter to get options for switch statement in main loop
-    button_counter = 1 + button_counter;
-    if (button_counter == 4){
-      // after achieving the limit, the counter is assigned to zero.
-      button_counter = 0;
-    }
-  } else {
-    // turn LED off:
-    //digitalWrite(right_ledPin, LOW);
-    //digitalWrite(left_ledPin, LOW);
-  }
-  // Added the delay so that we can see the output of button
-  return button_counter;
-  }
-
-// this function control the speed of DC motors by the potentiometer
-int speedControl() {
-
-  int tempo = analogRead(A6); //declaring and reading value from the pin
-  tempo = tempo / 2.6471; // doing calibration to change range from 0-675 to 0-255 the number
-  //Serial.println(tempo);
-  delay(100);
-  
-  return tempo;
 }

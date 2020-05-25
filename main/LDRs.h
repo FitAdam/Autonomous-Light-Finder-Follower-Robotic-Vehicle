@@ -16,15 +16,10 @@ class LDRs{
   int calibration_ligt_value = 0;
 
   public:
-    LDRs(int left_Photoresistor,int right_Photoresistor, int left_ledPin, int right_ledPin){
+    LDRs(int left_Photoresistor,int right_Photoresistor){
       _left_Photoresistor = left_Photoresistor;
       _right_Photoresistor = right_Photoresistor;
-      _left_ledPin = left_ledPin;
-      _right_ledPin = right_ledPin;
-    
-          // pin modes for LEDs
-      pinMode(_right_ledPin, OUTPUT);  // Set ledPin 
-      pinMode(_left_ledPin, OUTPUT);
+        
       // pin modes for photoresistors
       pinMode(_left_Photoresistor, INPUT);// Set pResistor 
       pinMode(_right_Photoresistor, INPUT);

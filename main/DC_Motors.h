@@ -63,12 +63,12 @@ void Left(int tempo)
 }
 
 void Right(int tempo)
-{
-  digitalWrite(_IN3, LOW);
-  analogWrite(_IN4, tempo);
-
+{ 
   analogWrite(_IN1, tempo);
   digitalWrite(_IN2, LOW);
+  
+  digitalWrite(_IN3, LOW);
+  analogWrite(_IN4, tempo);
 
 }
 

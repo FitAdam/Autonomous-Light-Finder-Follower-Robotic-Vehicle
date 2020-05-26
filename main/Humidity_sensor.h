@@ -14,16 +14,21 @@ class Humidity_sensor{
         pinMode(_dht11_pin, INPUT); 
         
         }
-        void get_humidity(){
+        int get_humidity(){
           int chk = DHT.read11(_dht11_pin);
           delay(3000);
           Serial.println("temp: ");
           Serial.println(DHT.temperature);  // Text or value to print
           delay(3000);
-          delay(3000);
-          Serial.println("hum: ");
-          Serial.println(DHT.humidity);  // Text or value to print
-          delay(3000);
+          return DHT.humidity;
           
          }
+        int get_temperature(){
+         int chk2 = DHT.read11(_dht11_pin);
+         delay(3000);
+         Serial.println("temp: ");
+         Serial.println(DHT.temperature);  // Text or value to print
+         delay(3000);
+         return DHT.temperature;
+        }
   };

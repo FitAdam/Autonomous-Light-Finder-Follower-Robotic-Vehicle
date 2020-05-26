@@ -74,22 +74,21 @@ void setup()
   // initialize serial communication:
   Serial.begin(9600);
   new_display.init();
-  pinMode(LEFT_PHOTORES, INPUT);// Set pResistor - A1 pin as an input
+  pinMode(LEFT_PHOTORES, INPUT);
   pinMode(RIGHT_PHOTORES, INPUT);
   new_buzzer.Buzz(); // Gives signal that the set up is finished
-  new_display.display_hello();
-  
+
 }
 
 
 
 void loop()
 {
-  int x = 3;
+  int x = 1;
   if (x == 1) {
     Serial.println("Hello, I am a Robot!");
     // TO DO
-    // say hello on screen
+    new_display.display_hello();
     // play welcome music
     // say press button to calibrate
     // move to the next stage
@@ -113,72 +112,91 @@ void loop()
     Serial.println(right_value_of_light);
     delay(2000);
   }
-  else if ( x == 4) {
+  else if (x == 4){
+    int hum = humidity_sensor.get_humidity();
+    int temp = humidity_sensor.get_temperature();
+    new_display.display_hum_temp(hum, temp);
+  }
+  else if ( x == 5) {
     Serial.println("Follow the light!");
     int distance = ultrasonic.Bubble();
-    int new_light_threshold = new_potentiometer.get_value_for_threshold();
+    new_display.display_distance(distance);
+    // goal_light_threshold = 500;
+    int goal_light_threshold = new_potentiometer.get_value_for_threshold();
     int right_value_of_light = indicate_light_right();
     int left_value_of_light = indicate_light_left();
-    Serial.println("left_value_of_light");
-    Serial.println(left_value_of_light);
-    Serial.println("right_value_of_light");
-    Serial.println(right_value_of_light);
-    Serial.println("Value to pass:");
-    Serial.println(new_light_threshold);
-    delay(5000);
+    Serial.println(goal_light_threshold);
 
     new_tempo = 100;
-    int goal_light_threshold = new_light_threshold;
 
-    if (distance < 4 && right_value_of_light > new_light_threshold && left_value_of_light > new_light_threshold ) {
-      Serial.println("You got the light!");
-      new_buzzer.Buzz();
+    int SensorLeft = 1023 - left_value_of_light; // This reads the value of the sensor, then saves it to the corresponding integer.
+
+    int SensorRight = 1023 - right_value_of_light; // This reads the value of the sensor, then saves it to the corresponding integer.
+
+    int SensorDifference = abs(SensorLeft - SensorRight); // This calculates the difference between the two sensors and then saves it to an integer.
+
+    // This section of the sketch is used to print the values of the
+
+    // sensors through Serial to the computer. Useful for determining
+
+    // if the sensors are working and if the code is also functioning properly.
+
+    Serial.print("Left Sensor = "); // Prints the text inside the quotes.
+
+    Serial.print(left_value_of_light); // Prints the value of the Left Sensor.
+
+    Serial.print("\t"); // Prints a tab (space).
+
+    Serial.print("Right Sensor = "); // Prints the text inside the quotes.
+
+    Serial.print(right_value_of_light); // Prints the value of the Right Sensor.
+
+    Serial.print("\t"); // Prints a tab (space).
+
+    // This section of the sketch is what actually interperets the data and then runs the motors accordingly.
+
+    if (SensorLeft < 500 && SensorRight < 500) {
       dc_motors.Stop();
-      left_led.on();
-      right_led.on();
-      delay(3000);
-      left_led.off();
-      right_led.off();
+
+      Serial.println("Stop");
     }
-    else {
-        Serial.println("New light threshold, level to follow.");
-        Serial.println(new_light_threshold);
-        if (right_value_of_light > new_light_threshold) {
-          dc_motors.Right(new_tempo);
-          Serial.println("Going right.");
-          Serial.println(right_value_of_light);
-          delay(2000);
-          dc_motors.Stop();
-        }
-        else if (left_value_of_light > new_light_threshold) {
-          dc_motors.Left(new_tempo);
-          Serial.println("Going left.");
-          //Serial.println(right_value_of_light);
-          delay(2000);
-          dc_motors.Stop();
-        }
-        else if (right_value_of_light > new_light_threshold && left_value_of_light > new_light_threshold) {
-          dc_motors.Forward(new_tempo);
-          Serial.println("Going forward.");
-          //Serial.println(right_value_of_light);
-          delay(2000);
-        }
-        else{
-            Serial.println("STOP");
-            //Serial.println(right_value_of_light);
-            delay(2000);
-            dc_motors.Stop();
-          }
-      }
+
+    if (SensorLeft > SensorRight && SensorDifference > 200 && SensorLeft > 500 && SensorRight > 500) { // This is interpreted as if the Left sensor reads more light than the Right Sensor, Do this:
+
+      dc_motors.Right(255);
+
+      Serial.println("Left"); // This prints Left when the robot would actually turn Left.
+
     }
+
+    if (SensorLeft < SensorRight && SensorDifference > 200 && SensorLeft > 500 && SensorRight > 500) { // This is interpreted as if the Left sensor reads less light than the Right Sensor, Do this:
+
+      dc_motors.Left(255);
+
+      Serial.println("Right"); // This prints Right when the robot would actually turn Right.
+
+    }
+
+    else if (SensorLeft > 500 && SensorRight > 500 && SensorDifference < 75) { // This is interpreted as if the difference between the two sensors is under 125 (Experiment to suit our sensors), Do this:
+
+      dc_motors.Forward(new_tempo);
+
+      Serial.println("Forward"); // This prints Forward when the robot would actually go forward.
+
+    }
+
+    Serial.print("\n");
+
+}
+// loop ends
 }
 
-int indicate_light_left(){
+int indicate_light_left() {
   int value_l = analogRead(LEFT_PHOTORES);
   return value_l;
-  }
+}
 
-int indicate_light_right(){
+int indicate_light_right() {
   int value_r = analogRead(RIGHT_PHOTORES);
   return value_r;
-  }
+}

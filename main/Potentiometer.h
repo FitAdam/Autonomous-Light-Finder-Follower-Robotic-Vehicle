@@ -23,10 +23,10 @@ class Potentiometer{
     }
     int get_value_for_temp(){
       // this function control the speed of DC motors by the potentiometer
-      int tempo = analogRead(_potentiometer); //declaring and reading value from the pin
-      tempo = tempo / 2.6471; // doing calibration to change range from 0-675 to 0-255 the number
+      int temp = analogRead(_potentiometer); //declaring and reading value from the pin
+      temp = temp/ 2.6471; // doing calibration to change range from 0-675 to 0-255 the number
       delay(100);
-      return tempo;
+      return temp;
     }
     int get_value_for_hum(){
       // this function control the speed of DC motors by the potentiometer

@@ -38,35 +38,23 @@ class Screen{
       display.dim(0);  //Set brightness (0 is maximun and 1 is a little dim)
       
       }
-    // function for display and detection of values from One Temperature and Humidity Sensor
-    void display_hum_temp()
+    // function for display values from Temperature and Humidity Sensor
+    void display_hum_temp(int hum, int temp)
     {
       delay(3000);
       display.clearDisplay();  // Clear the display so we can refresh
       display.setFont(&FreeMono9pt7b);  // Set a custom font
       display.setTextSize(0);  // Set text size. We are using a custom font so you should always use the text size of 0
-      // Print text:
       display.setCursor(0, 15);  // (x,y)
       display.println("Temp=");  // Text or value to print
-      //delay(3000);
-      // Draw rectangle:
       display.drawRoundRect(79, 0, 49, 27, 8, WHITE);  // Draw rectangle (x,y,width,height,color)
-      // It draws from the location to down-right
-      // Print variable with left alignment:
       display.setCursor(83, 20);  // (x,y)
-      //delay(3000);
-      //display.println(DHT.temperature);  // Text or value to print
-      //delay(3000);
+      display.println(temp);
       display.setCursor(0, 50);  // (x,y)
       display.println("Hum=");
-      // Draw rounded rectangle:
-      display.drawRoundRect(79, 37, 49, 27, 8, WHITE);  // Draw rounded rectangle (x,y,width,height,radius,color)
-      // It draws from the location to down-right
-      // Print variable with right alignment:
-      display.setCursor(83, 57);  // (x,y)
-      //delay(3000);
-      //display.println(DHT.humidity);  // Text or value to print
-      //delay(3000);
+      display.drawRoundRect(79, 37, 49, 27, 8, WHITE);
+      display.setCursor(83, 57); 
+      display.println(hum);  // Text or value to print
       display.display();  // Print everything we set previously
     }
 
@@ -80,7 +68,7 @@ class Screen{
       
     }
     
-    void display_distance(){
+    void display_distance(int distance){
       // Display 
     display.clearDisplay();  // Clear the display so we can refresh
     display.setFont(&FreeMono9pt7b);  // Set a custom font
@@ -90,8 +78,27 @@ class Screen{
     display.println("Distance: ");  // Text or value to print
     // Print variable with left alignment:
     display.setCursor(75, 40);  // (x,y)
-    //display.println(distance);  // Text or value to print
+    display.println(distance);  // Text or value to print
     display.display();  // Print everything we set previously
+    }
+
+    void display_looking_for_light(){
+      display.clearDisplay();
+      display.setTextSize(1);
+      display.setTextColor(WHITE);
+      display.setCursor(0,28); // (x,y)
+      display.println("I am looking for light!");
+      display.display();
+      
+    }
+    void display_got_the_light(){
+      display.clearDisplay();
+      display.setTextSize(1);
+      display.setTextColor(WHITE);
+      display.setCursor(0,28); // (x,y)
+      display.println("GOT THE LIGHT!");
+      display.display();
+      
     }
     
   };

@@ -14,7 +14,7 @@ class Button{
   unsigned long hold_delay_s1 = 1000; //The time required to register a long press (a.k.a. "hold")
   
   public:
-    Button(int button){
+    Button(byte button){
       _button = button;
       pinMode(_button, INPUT_PULLUP);
     }
@@ -27,7 +27,7 @@ class Button{
   //State Machine Section
   switch (state_s1) {
     case 0: //RESET!
-      //Catch all "home base" for the State MAchine
+      //Catch all "home base" for the State Machine
       state_s1 = 1;
     break;
 

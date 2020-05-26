@@ -7,6 +7,7 @@ class Led {
   
    private:
     byte pin;
+    int _value;
    
 
    public:
@@ -14,7 +15,8 @@ class Led {
         void init();
         void on();
         void off();
-        
+        void on_with_value(int value);
+       
 
         
   };

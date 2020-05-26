@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Vdvm/Desktop/Code for the Robot/main/LDR.cpp
+LDR.h
+C:/Users/Vdvm/Desktop/Code for the Robot/main/LDR.h
+
+C:/Users/Vdvm/Desktop/Code for the Robot/main/LDR.h
+arduino.h
+-
+

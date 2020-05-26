@@ -80,22 +80,24 @@ void setup()
 
 }
 
-
-
 void loop()
 {
-  int x = 1;
+  //int b_pressed = new_button.StateMachine_s1();
+  //int x = new_button.get_button_counter_value(b_pressed);
+  int x = 4;
   if (x == 1) {
     Serial.println("Hello, I am a Robot!");
     // TO DO
     new_display.display_hello();
+    //new_buzzer.Ode_to_Joy();
     // play welcome music
     // say press button to calibrate
     // move to the next stage
   }
-  else if ( x == 2) {
+  else if (x == 2) {
     Serial.println("Calibrate my speed");
     int new_tempo = new_potentiometer.get_value_for_speed();
+    new_display.speed_calibration(new_tempo);
     Serial.println("tempo");
     Serial.println(new_tempo);
     dc_motors.Forward(new_tempo);
@@ -106,13 +108,14 @@ void loop()
     int new_light_threshold = new_potentiometer.get_value_for_threshold();
     int right_value_of_light = indicate_light_right();
     int left_value_of_light = indicate_light_left();
+    new_display.light_calibration(new_light_threshold);
     Serial.println("left_value_of_light");
     Serial.println(left_value_of_light);
     Serial.println("right_value_of_light");
     Serial.println(right_value_of_light);
     delay(2000);
   }
-  else if (x == 4){
+  else if (x == 4) {
     int hum = humidity_sensor.get_humidity();
     int temp = humidity_sensor.get_temperature();
     new_display.display_hum_temp(hum, temp);
@@ -187,8 +190,8 @@ void loop()
 
     Serial.print("\n");
 
-}
-// loop ends
+  }
+  // loop ends
 }
 
 int indicate_light_left() {

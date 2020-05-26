@@ -100,5 +100,29 @@ class Screen{
       display.display();
       
     }
+    void light_calibration(int level){
+      display.clearDisplay();
+      display.setTextSize(1);
+      display.setTextColor(WHITE);
+      display.setCursor(0,10); // (x,y)
+      display.println("level of the light:");
+      display.setCursor(0,35); // (x,y)
+      display.println(level);
+      display.setCursor(0,55); // (x,y)
+      display.println("Press button when finished");
+      display.display();
+    }
+    void speed_calibration(int tempo){
+      display.clearDisplay();
+      display.setTextSize(1);
+      display.setTextColor(WHITE);
+      display.setCursor(0,10); // (x,y)
+      display.println("set up your speed:");
+      display.setCursor(0,35); // (x,y)
+      display.println(tempo);
+      display.setCursor(0,55); // (x,y)
+      display.println("Press button when finished");
+      display.display();
+    }
     
   };

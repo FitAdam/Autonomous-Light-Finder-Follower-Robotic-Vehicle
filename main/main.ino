@@ -8,15 +8,16 @@
 // import classes
 #include "Ultrasonic_sensor.h"
 #include "DC_Motors.h"
-#include "LDRs.h"
+//#include "LDRs.h"
 #include "Display.h"
 #include "Humidity_sensor.h"
 #include "Buzzer.h"
-#include "LEDs.h"
+//#include "LEDs.h"
 #include "Potentiometer.h"
 #include "Button.h"
 
 #include "LED.h"
+#include "LDR.h"
 
 int POTENTIOMETER = A6;
 Potentiometer new_potentiometer(POTENTIOMETER);
@@ -59,11 +60,14 @@ const int RIGHT_PHOTORES = A0;
 const int RIGHT_LEDPIN = 6;      // Led pin at Arduino pin 6
 const int LEFT_LEDPIN = 5;
 
-LDRs ldrs(LEFT_PHOTORES,RIGHT_PHOTORES);
+//LDRs ldrs(LEFT_PHOTORES,RIGHT_PHOTORES);
 
-Leds leds(LEFT_LEDPIN,RIGHT_LEDPIN);
+//Leds leds(LEFT_LEDPIN,RIGHT_LEDPIN);
 
 Led left_led(LEFT_LEDPIN);
+Led right_led(RIGHT_LEDPIN);
+LDR left_photo(LEFT_PHOTORES);
+LDR right_photo(LEFT_PHOTORES);
 
 Screen new_display;
 //-----------------
@@ -84,17 +88,20 @@ void loop()
 { 
   //new_button.test_button();
   // CURRENT TESTING
-  switch (new_button.get_button_counter_value()){
+  switch (1){
     case 0:    
       Serial.println("left_led");
       left_led.on();
       break;
     case 1:    
-      Serial.println("first display_hello()");
-      new_display.display_hello();
+      //Serial.println("StateMachine_s1()");
+      new_button.StateMachine_s1();
       break;
     case 2:    
       Serial.println("Case 2");
+      Serial.println("right_led");
+      right_photo.indicate_light();
+      right_led.on();
       break;
     case 3:    // your hand is nowhere near the sensor
       Serial.println("third-last Forward()");

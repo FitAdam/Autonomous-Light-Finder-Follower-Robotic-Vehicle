@@ -77,7 +77,7 @@ class Button{
     int get_button_counter_value(int value_x) {
     if (value_x == 1) {
       button_counter = 1 + button_counter;
-      if (button_counter == 5){
+      if (button_counter == 6){
         // after achieving the limit, the counter is assigned to zero.
         button_counter = 0;
       }

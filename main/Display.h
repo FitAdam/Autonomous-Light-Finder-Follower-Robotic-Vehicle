@@ -41,7 +41,6 @@ class Screen{
     // function for display values from Temperature and Humidity Sensor
     void display_hum_temp(int hum, int temp)
     {
-      delay(3000);
       display.clearDisplay();  // Clear the display so we can refresh
       display.setFont(&FreeMono9pt7b);  // Set a custom font
       display.setTextSize(0);  // Set text size. We are using a custom font so you should always use the text size of 0

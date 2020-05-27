@@ -15,20 +15,13 @@ class Humidity_sensor{
         
         }
         int get_humidity(){
-          int chk = DHT.read11(_dht11_pin);
-          delay(3000);
-          Serial.println("temp: ");
-          Serial.println(DHT.temperature);  // Text or value to print
-          delay(3000);
+          int chk = DHT.read22(_dht11_pin);
           return DHT.humidity;
           
          }
         int get_temperature(){
-         int chk2 = DHT.read11(_dht11_pin);
-         delay(3000);
-         Serial.println("temp: ");
-         Serial.println(DHT.temperature);  // Text or value to print
-         delay(3000);
-         return DHT.temperature;
+         int chk2 = DHT.read22(_dht11_pin);
+         float t = DHT.temperature;
+         return t;
         }
   };

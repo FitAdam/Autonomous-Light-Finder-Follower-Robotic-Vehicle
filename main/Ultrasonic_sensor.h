@@ -24,10 +24,10 @@ class Ultrasonic{
   {
     // Clears the trigPin
     digitalWrite(_trigPin, LOW);
-    delayMicroseconds(2);
+    delay(100);
     // Sets the trigPin on HIGH state for 10 micro seconds
     digitalWrite(_trigPin, HIGH);
-    delayMicroseconds(10);
+    delay(100);
     digitalWrite(_trigPin, LOW);
     // Reads the echoPin, returns the sound wave travel time in microseconds
     duration = pulseIn(_echoPin, HIGH);

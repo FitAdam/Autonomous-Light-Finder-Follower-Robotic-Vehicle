@@ -1,10 +1,5 @@
 #include "LDR.h"
-/*************************************
-  A Light Source Scanning program subroutine should be implemented at the beginning of the program execution to make
-  sure the Robotic Vehicle detects and analyses
-  several light sources surrounding the vehicle and creates a light intensity
-  reference threshold in the process.
-*************************************/
+
 
 LDR::LDR(byte _photoresistor) {
   this->_photoresistor;

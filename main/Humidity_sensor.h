@@ -10,7 +10,6 @@ class Humidity_sensor{
       Humidity_sensor(int dht11_pin){
         _dht11_pin = dht11_pin;
 
-        // pin mode for humidity sensor
         pinMode(_dht11_pin, INPUT); 
         
         }

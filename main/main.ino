@@ -74,26 +74,57 @@ int SensorDifference;
 
 
 void setup()
-
 {
-
   new_display.init();
   pinMode(LEFT_PHOTORES, INPUT);
   pinMode(RIGHT_PHOTORES, INPUT);
   new_buzzer.Buzz(); // Gives signal that the set up is finished
-
 }
 
 void loop()
 {
-
   int b_pressed = new_button.StateMachine_s1();
   int x = new_button.get_button_counter_value(b_pressed);
   int y = 0;
   switch (x) {
     case 0:
+      follow_the_light();
+      break;
+    case 1:
+      new_tempo = new_potentiometer.get_value_for_speed();
+      new_display.speed_calibration(new_tempo);
+      dc_motors.Forward(new_tempo);
+      break;
+    case 2:
+      new_light_threshold = new_potentiometer.get_value_for_threshold();
+      right_value_of_light = indicate_light_right();
+      left_value_of_light = indicate_light_left();
+      new_display.light_calibration(new_light_threshold);
+      break;
+    case 3:
+      int hum = humidity_sensor.get_humidity();
+      int temp = humidity_sensor.get_temperature();
+      new_display.display_hum_temp(hum, temp);
+      break;
+  }
+} //the loop ends
 
-      distance = ultrasonic.Bubble();
+
+// TO DO 
+// The class for LDR's returns same value for the same photoresistors
+// Bug to fix (!)
+int indicate_light_left() {
+  int value_l = analogRead(LEFT_PHOTORES);
+  return value_l;
+}
+
+int indicate_light_right() {
+  int value_r = analogRead(RIGHT_PHOTORES);
+  return value_r;
+}
+
+void follow_the_light(){
+  distance = ultrasonic.Bubble();
       new_tempo = 80;
       new_display.display_distance(distance);
       right_value_of_light = indicate_light_right();
@@ -150,40 +181,4 @@ void loop()
         left_led.off();
         right_led.off();
       }
-
-      break;
-    case 1:
-      new_tempo = new_potentiometer.get_value_for_speed();
-      new_display.speed_calibration(new_tempo);
-      dc_motors.Forward(new_tempo);
-      break;
-    case 2:
-      new_light_threshold = new_potentiometer.get_value_for_threshold();
-      right_value_of_light = indicate_light_right();
-      left_value_of_light = indicate_light_left();
-      new_display.light_calibration(new_light_threshold);
-      break;
-    case 3:
-      int hum = humidity_sensor.get_humidity();
-
-      int temp = humidity_sensor.get_temperature();
-
-      new_display.display_hum_temp(56, 23);
-      break;
-  }
-  // loop ends
-}
-
-
-// TO DO 
-// The class for LDR's returns same value for the same photoresistors
-// Bug to fix (!)
-int indicate_light_left() {
-  int value_l = analogRead(LEFT_PHOTORES);
-  return value_l;
-}
-
-int indicate_light_right() {
-  int value_r = analogRead(RIGHT_PHOTORES);
-  return value_r;
 }
